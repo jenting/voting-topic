@@ -4,7 +4,7 @@ A website that allows user to create new topic and voting (upvote or downvote).
 
 **Language:**
 
-* F/E: ReactJS or AngularJS
+* F/E: Vue.js
 
 * B/E: Golang
 
