@@ -1,0 +1,76 @@
+{
+	"ImportPath": "github.com/hsiaoairplane/voting-topic",
+	"GoVersion": "go1.8",
+	"GodepVersion": "v80",
+	"Deps": [
+		{
+			"ImportPath": "github.com/gin-contrib/sse",
+			"Rev": "22d885f9ecc78bf4ee5d72b937e4bbcdc58e8cae"
+		},
+		{
+			"ImportPath": "github.com/gin-gonic/gin",
+			"Comment": "v1.2-148-g65a65c2",
+			"Rev": "65a65c2edd4e86f96634a553f07a25c38f2b1c75"
+		},
+		{
+			"ImportPath": "github.com/gin-gonic/gin/binding",
+			"Comment": "v1.2-148-g65a65c2",
+			"Rev": "65a65c2edd4e86f96634a553f07a25c38f2b1c75"
+		},
+		{
+			"ImportPath": "github.com/gin-gonic/gin/json",
+			"Comment": "v1.2-148-g65a65c2",
+			"Rev": "65a65c2edd4e86f96634a553f07a25c38f2b1c75"
+		},
+		{
+			"ImportPath": "github.com/gin-gonic/gin/render",
+			"Comment": "v1.2-148-g65a65c2",
+			"Rev": "65a65c2edd4e86f96634a553f07a25c38f2b1c75"
+		},
+		{
+			"ImportPath": "github.com/golang/glog",
+			"Rev": "44145f04b68cf362d9c4df2182967c2275eaefed"
+		},
+		{
+			"ImportPath": "github.com/golang/protobuf/proto",
+			"Rev": "4bd1920723d7b7c925de087aa32e2187708897f7"
+		},
+		{
+			"ImportPath": "github.com/json-iterator/go",
+			"Comment": "1.1.1-6-g2a93f90",
+			"Rev": "2a93f9003e4f0b57063fcd849d92581f9c48fdcf"
+		},
+		{
+			"ImportPath": "github.com/mattn/go-isatty",
+			"Comment": "v0.0.3-1-ga5cdd64",
+			"Rev": "a5cdd64afdee435007ee3e9f6ed4684af949d568"
+		},
+		{
+			"ImportPath": "github.com/ugorji/go/codec",
+			"Rev": "ded73eae5db7e7a0ef6f55aace87a2873c5d2b74"
+		},
+		{
+			"ImportPath": "github.com/v2pro/plz/concurrent",
+			"Comment": "0.9.1-15-g8ffd041",
+			"Rev": "8ffd0413fb327a82905ccc7b73fc5ca8435c067c"
+		},
+		{
+			"ImportPath": "github.com/v2pro/plz/reflect2",
+			"Comment": "0.9.1-15-g8ffd041",
+			"Rev": "8ffd0413fb327a82905ccc7b73fc5ca8435c067c"
+		},
+		{
+			"ImportPath": "golang.org/x/sys/unix",
+			"Rev": "6f686a352de66814cdd080d970febae7767857a3"
+		},
+		{
+			"ImportPath": "gopkg.in/go-playground/validator.v8",
+			"Comment": "v8.18.2",
+			"Rev": "5f1438d3fca68893a817e4a66806cea46a9e4ebf"
+		},
+		{
+			"ImportPath": "gopkg.in/yaml.v2",
+			"Rev": "53feefa2559fb8dfa8d81baad31be332c97d6c77"
+		}
+	]
+}
