@@ -1,6 +1,7 @@
 package apis
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -75,17 +76,12 @@ func getTopic(c *gin.Context) {
 func createTopic(c *gin.Context) {
 	var t topicInfo
 	if err := c.BindJSON(&t); err != nil {
+		log.Println(t)
 		glog.Infof("Invalid JSON input")
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid JSON parameter"})
 		return
 	}
 
-	// Check input parameter
-	if t.Name == "" {
-		glog.Error("Topic name is empty")
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid parameter"})
-		return
-	}
 	// Topic should not exceed 255 characters.
 	if len(t.Name) > maxTopicNameLen {
 		glog.Errorf("Topic name length exceeds length %d", maxTopicNameLen)
@@ -119,12 +115,6 @@ func updateTopic(c *gin.Context) {
 		return
 	}
 
-	// Check input parameter
-	if t.Name == "" {
-		glog.Error("Topic name is empty")
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid parameter"})
-		return
-	}
 	// Check if the topic exists
 	if exist := cache.IsTopicExist(t.Name); !exist {
 		glog.Infof("Topic %s is not exist", t.Name)
