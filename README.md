@@ -8,7 +8,37 @@ A website that allows user to create new topic and voting (upvote or downvote).
 
 * B/E: Golang
 
-**Limitations:**
+## RESTful APIs
+
+* CRUD
+
+|    Method   |     URL     | Description |
+|-------------|-------------|-------------|
+| GET | <http://localhost/toptopic> | Query top 20 topic informations. |
+| GET | <http://localhost/topic?name={name}> | Query topic information with specific topic name. |
+| POST | <http://localhost/topic> | Create topic with JSON body. |
+| PUT | <http://localhost/topic> | Update topic information with JSON body. |
+
+* HTTP POST/PUT JSON body
+
+|    Field     | Type(Length) |  Description |
+|--------------|--------------|--------------|
+|     Name     |  String(255) |   Topic name |
+|    Upvote    |  Unsigned Integer | Upvote count |
+|   Downvote   |  Unsigned Integer | Downvote count |
+
+## TODO
+
+* [ ] Add frontend page
+* [ ] Support [prometheus](https://prometheus.io) metrics API
+
+## Godep
+
+* Add all dependency `godep save ./...`
+
+* Restore dependency in vendor folderto the $GOPATH `godep restore`
+
+## Limitations
 
 * Topic should not exceed 255 characters.
 
@@ -22,7 +52,7 @@ A website that allows user to create new topic and voting (upvote or downvote).
 
 * Deploy to Heroku
 
-**Notes:**
+## Notes
 
 * Do not do AAA
 
