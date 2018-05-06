@@ -14,8 +14,29 @@ const (
 	maxTopTopics    = 20
 )
 
-// GetTopTopic returns top 20 topics (sorted by upvotes, descending)
-func GetTopTopic(c *gin.Context) {
+// SetupRouter returns the main gin-gonic http server
+func SetupRouter() *gin.Engine {
+	// Disable debug mode of gin framework.
+	gin.SetMode(gin.ReleaseMode)
+
+	// Disable console color.
+	gin.DisableConsoleColor()
+
+	// Creates a gin router with default middleware:
+	// logger and recovery (crash-free) middleware
+	router := gin.Default()
+
+	// Create routes
+	router.GET("/toptopic", getTopTopic) // get top topic
+	router.GET("/topic", getTopic)       // get topic
+	router.POST("/topic", createTopic)   // sumit a new topic
+	router.PUT("/topic", updateTopic)    // update a topic
+
+	return router
+}
+
+// getTopTopic returns top 20 topics (sorted by upvotes, descending)
+func getTopTopic(c *gin.Context) {
 	topicUpvoteDescend := cache.GetTopicDescendUpvote()
 	if len(topicUpvoteDescend) > maxTopTopics {
 		c.JSON(http.StatusOK, topicUpvoteDescend[:maxTopTopics])
@@ -26,8 +47,8 @@ func GetTopTopic(c *gin.Context) {
 	return
 }
 
-// GetTopic returns specific topic's update and downvote count
-func GetTopic(c *gin.Context) {
+// getTopic returns specific topic's update and downvote count
+func getTopic(c *gin.Context) {
 	// Get GET parameter
 	topicName := c.Query("name")
 	// Check input parameter
@@ -50,8 +71,8 @@ func GetTopic(c *gin.Context) {
 	return
 }
 
-// CreateTopic implements the RESTful POST API.
-func CreateTopic(c *gin.Context) {
+// createTopic implements the RESTful POST API.
+func createTopic(c *gin.Context) {
 	var t topicInfo
 	if err := c.BindJSON(&t); err != nil {
 		glog.Infof("Invalid JSON input")
@@ -89,8 +110,8 @@ func CreateTopic(c *gin.Context) {
 	return
 }
 
-// UpdateTopic implements the RESTful PUT API.
-func UpdateTopic(c *gin.Context) {
+// updateTopic implements the RESTful PUT API.
+func updateTopic(c *gin.Context) {
 	var t topicInfo
 	if err := c.BindJSON(&t); err != nil {
 		glog.Infof("Invalid JSON input")

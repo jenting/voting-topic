@@ -8,7 +8,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
 	"github.com/hsiaoairplane/voting-topic/backend/apis"
 )
@@ -22,12 +21,8 @@ func init() {
 }
 
 // StartServer starts backend server
-func StartServer(router *gin.Engine, signalCh <-chan os.Signal) {
-	router.GET("/toptopic", apis.GetTopTopic) // get top topic
-	router.GET("/topic", apis.GetTopic)       // get topic
-	router.POST("/topic", apis.CreateTopic)   // sumit a new topic
-	router.PUT("/topic", apis.UpdateTopic)    // update a topic
-
+func StartServer(signalCh <-chan os.Signal) {
+	router := apis.SetupRouter()
 	srv := http.Server{
 		Addr:    fmt.Sprintf(":%d", port),
 		Handler: router,
