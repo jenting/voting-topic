@@ -1,15 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ .title }}</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="engine.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <body>
+    <table id="topicTable">
+        <tr>
+            <th>Name</th>
+            <th>Upvote</th>
+            <th>Downvote</th>
+        </tr>
+    </table>
 
-<table id="TableA" dir="ltr" width="500" border="1">  
+<table id="TableA" dir="ltr" width="500" border="1">
 </table>
 
 <script type="text/javascript" >
+
+$(document).ready(function () {
+    $.ajax({
+        url: 'http://localhost:8080/toptopic',
+        type: 'GET',
+        dataType: 'json',
+        success: function (result) {
+            var insert = '';
+            $.each(result, function (index, item) {
+                insert += '<tr>';
+                insert += '<td>' + item.Name + '</td>'
+                insert += '<td><button>' + item.Upvote + '</button></td>'
+                insert += '<td><button>' + item.Downvote + '</button></td>'
+                insert += '</tr>';
+                //insert += '<tr><td>' + item.Name + '</td>' + '<button></button>' + '</tr>';
+            });
+            $('#topicTable tr:last').after(insert);
+        }
+    });
+});
+
+/*
 for (var i = 1; i <= 20; i++) {
     // Get a reference to the table
     var tableRef = document.getElementById("TableA");
@@ -36,14 +66,18 @@ for (var i = 1; i <= 20; i++) {
     var newCell  = newRow.insertCell(0);
 
     // Append a text node to the cell
-    var newText  = document.createElement("P");
-    newText.innerHTML = "item" +" "+ i;
+    var newText  = document.createElement("Topic");
+    newText.innerHTML = "topic" +" "+ i;
     newCell.appendChild(newText);
 
     upBtn.onclick = function(){
-        alert("Button Id: " + this.id);
+        alert("UpBtn Id: " + this.id);
+    }
+    downBtn.onclick = function() {
+        alert("DownBtn Id: " + this.id);
     }
 }
+*/
 
 </script>
     <h4>Create New Topic:</h4>
