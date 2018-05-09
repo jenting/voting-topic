@@ -12,7 +12,9 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang/glog"
 	"github.com/google/uuid"
+	"github.com/hsiaoairplane/voting-topic/backend"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -23,6 +25,21 @@ func init() {
 }
 
 func TestGetTopTopic(t *testing.T) {
+	router := SetupRouter()
+
+	// Perform a GET request with that handler.
+	req, _ := http.NewRequest("GET", "/toptopic", nil)
+	resp := httptest.NewRecorder()
+	router.ServeHTTP(resp, req)
+
+	// Assert we encoded correctly, the request gives a 200
+	assert.Equal(t, http.StatusOK, resp.Code)
+
+	var respBody []backend.TopicInfo
+	err := json.Unmarshal([]byte(resp.Body.String()), &respBody)
+	assert.Nil(t, err)
+
+	glog.Info(respBody)
 }
 
 func TestGetTopicInvalidUUID(t *testing.T) {

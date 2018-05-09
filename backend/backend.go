@@ -45,8 +45,8 @@ func StartServer(signalCh <-chan os.Signal) {
 	glog.Infof("Shutdown server ...")
 
 	// Wait for interrupt signal to gracefully shutdown the server with
-	// a timeout of 3 seconds.
-	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	// a timeout of 1 seconds.
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()
 	if err := srv.Shutdown(ctx); err != nil {
 		glog.Fatalf("server shutdown: %v", err)

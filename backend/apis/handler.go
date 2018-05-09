@@ -61,7 +61,7 @@ func getTopic(c *gin.Context) {
 	up := cache.GetTopicUpvote(uid)
 	down := cache.GetTopicDownvote(uid)
 
-	c.JSON(http.StatusOK, &topicInfo{UID: uid, Name: name, Upvote: up, Downvote: down})
+	c.JSON(http.StatusOK, &cache.Topic{UID: uid, Name: name, Upvote: up, Downvote: down})
 	return
 }
 
@@ -79,7 +79,7 @@ func getTopTopic(c *gin.Context) {
 
 // createTopic implements the RESTful POST API.
 func createTopic(c *gin.Context) {
-	var t topicInfo
+	var t cache.Topic
 	if err := c.BindJSON(&t); err != nil {
 		log.Println(t)
 		glog.Infof("Invalid JSON input")
@@ -106,13 +106,13 @@ func createTopic(c *gin.Context) {
 	_ = cache.SetTopicUpvote(uid, t.Upvote)
 	_ = cache.SetTopicDownvote(uid, t.Downvote)
 
-	c.JSON(http.StatusOK, &topicInfo{UID: uid, Name: t.Name, Upvote: t.Upvote, Downvote: t.Downvote})
+	c.JSON(http.StatusOK, &cache.Topic{UID: uid, Name: t.Name, Upvote: t.Upvote, Downvote: t.Downvote})
 	return
 }
 
 // updateTopic implements the RESTful PUT API.
 func updateTopic(c *gin.Context) {
-	var t topicInfo
+	var t cache.Topic
 	if err := c.BindJSON(&t); err != nil {
 		glog.Infof("Invalid JSON input")
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid JSON parameter"})
@@ -130,6 +130,6 @@ func updateTopic(c *gin.Context) {
 	_ = cache.SetTopicUpvote(t.UID, t.Upvote)
 	_ = cache.SetTopicDownvote(t.UID, t.Downvote)
 
-	c.JSON(http.StatusOK, &topicInfo{UID: t.UID, Name: t.Name, Upvote: t.Upvote, Downvote: t.Downvote})
+	c.JSON(http.StatusOK, &cache.Topic{UID: t.UID, Name: t.Name, Upvote: t.Upvote, Downvote: t.Downvote})
 	return
 }

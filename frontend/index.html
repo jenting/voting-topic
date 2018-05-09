@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ .title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<body>
+
+<table id="TableA" dir="ltr" width="500" border="1">  
+</table>
+
+<script type="text/javascript" >
+for (var i = 1; i <= 20; i++) {
+    // Get a reference to the table
+    var tableRef = document.getElementById("TableA");
+
+    // Insert a row in the table at row index 0
+    var newRow   = tableRef.insertRow(0);
+
+    // Insert a cell in the row at index 0
+    var btn  = newRow.insertCell(0);
+
+    // Append a text node to the cell
+    var upBtn  = document.createElement("BUTTON");
+    var downBtn = document.createElement("BUTTON")
+    upBtn.id = i;
+    downBtn.id = i;
+
+    upBtn.innerHTML = "up";
+    downBtn.innerHTML = "down";
+
+    btn.appendChild(upBtn);
+    btn.appendChild(downBtn)
+
+    // Insert a cell in the row at index 0
+    var newCell  = newRow.insertCell(0);
+
+    // Append a text node to the cell
+    var newText  = document.createElement("P");
+    newText.innerHTML = "item" +" "+ i;
+    newCell.appendChild(newText);
+
+    upBtn.onclick = function(){
+        alert("Button Id: " + this.id);
+    }
+}
+
+</script>
+    <h4>Create New Topic:</h4>
+    <input type="text" name="topic" value="">
+    <br>
+    <input type="submit" value="Submit">
+    <br>
+</body>
+</html>
