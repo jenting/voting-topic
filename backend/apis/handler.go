@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
+	"github.com/google/uuid"
 
 	"github.com/hsiaoairplane/voting-topic/backend/cache"
 )
@@ -36,6 +37,34 @@ func SetupRouter() *gin.Engine {
 	return router
 }
 
+// getTopic returns specific topic's update and downvote count
+func getTopic(c *gin.Context) {
+	inputUUID := c.Query("uuid")
+
+	// Get GET parameter
+	uid, err := uuid.Parse(inputUUID)
+	if err != nil {
+		glog.Infof("Invalid input uuid: %v", inputUUID)
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid input uuid"})
+		return
+	}
+
+	// Get topic
+	_, ok := cache.GetTopic(uid)
+	if ok == false {
+		glog.Infof("Get topic %v failed", uid)
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Topic not exist"})
+		return
+	}
+
+	name := cache.GetTopicName(uid)
+	up := cache.GetTopicUpvote(uid)
+	down := cache.GetTopicDownvote(uid)
+
+	c.JSON(http.StatusOK, &topicInfo{UID: uid, Name: name, Upvote: up, Downvote: down})
+	return
+}
+
 // getTopTopic returns top 20 topics (sorted by upvotes, descending)
 func getTopTopic(c *gin.Context) {
 	topicUpvoteDescend := cache.GetTopicDescendUpvote()
@@ -45,30 +74,6 @@ func getTopTopic(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, topicUpvoteDescend)
-	return
-}
-
-// getTopic returns specific topic's update and downvote count
-func getTopic(c *gin.Context) {
-	// Get GET parameter
-	topicName := c.Query("name")
-	// Check input parameter
-	if topicName == "" {
-		glog.Error("Topic name is empty")
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid parameter"})
-		return
-	}
-	// Check if the topic exists
-	if exist := cache.IsTopicExist(topicName); !exist {
-		glog.Infof("Topic %s already exist", topicName)
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Topic name not exist"})
-		return
-	}
-
-	up := cache.GetTopicUpvote(topicName)
-	down := cache.GetTopicDownvote(topicName)
-
-	c.JSON(http.StatusOK, &topicInfo{Name: topicName, Upvote: up, Downvote: down})
 	return
 }
 
@@ -85,24 +90,23 @@ func createTopic(c *gin.Context) {
 	// Topic should not exceed 255 characters.
 	if len(t.Name) > maxTopicNameLen {
 		glog.Errorf("Topic name length exceeds length %d", maxTopicNameLen)
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid parameter"})
-		return
-	}
-
-	// Check if the topic exists
-	if exist := cache.IsTopicExist(t.Name); exist {
-		glog.Infof("Topic %s already exist", t.Name)
-		c.JSON(http.StatusOK, gin.H{"message": "Topic name already exist"})
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Topic name over length"})
 		return
 	}
 
 	// Create new topic
-	cache.CreateTopic(t.Name)
-	// Set data
-	cache.SetTopicUpvote(t.Name, t.Upvote)
-	cache.SetTopicDownvote(t.Name, t.Downvote)
+	uid, err := cache.CreateTopic(t.Name)
+	if err != nil {
+		glog.Errorf("Create topic %v err: %v", t.Name, err)
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Create topic failed"})
+		return
+	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "OK"})
+	// Set data
+	_ = cache.SetTopicUpvote(uid, t.Upvote)
+	_ = cache.SetTopicDownvote(uid, t.Downvote)
+
+	c.JSON(http.StatusOK, &topicInfo{UID: uid, Name: t.Name, Upvote: t.Upvote, Downvote: t.Downvote})
 	return
 }
 
@@ -115,17 +119,17 @@ func updateTopic(c *gin.Context) {
 		return
 	}
 
-	// Check if the topic exists
-	if exist := cache.IsTopicExist(t.Name); !exist {
-		glog.Infof("Topic %s is not exist", t.Name)
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Topic name is not exist"})
+	_, ok := cache.GetTopic(t.UID)
+	if ok == false {
+		glog.Infof("UUID %v not exist", t.UID)
+		c.JSON(http.StatusBadRequest, gin.H{"message": "UUID not exist"})
 		return
 	}
 
 	// Set data
-	cache.SetTopicUpvote(t.Name, t.Upvote)
-	cache.SetTopicDownvote(t.Name, t.Downvote)
+	_ = cache.SetTopicUpvote(t.UID, t.Upvote)
+	_ = cache.SetTopicDownvote(t.UID, t.Downvote)
 
-	c.JSON(http.StatusOK, gin.H{"message": "OK"})
+	c.JSON(http.StatusOK, &topicInfo{UID: t.UID, Name: t.Name, Upvote: t.Upvote, Downvote: t.Downvote})
 	return
 }

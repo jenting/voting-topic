@@ -10,6 +10,7 @@ import (
 
 	"github.com/golang/glog"
 	"github.com/hsiaoairplane/voting-topic/backend/apis"
+	"github.com/hsiaoairplane/voting-topic/frontend"
 )
 
 var (
@@ -23,6 +24,8 @@ func init() {
 // StartServer starts backend server
 func StartServer(signalCh <-chan os.Signal) {
 	router := apis.SetupRouter()
+	frontend.SetupFrontend(router)
+
 	srv := http.Server{
 		Addr:    fmt.Sprintf(":%d", port),
 		Handler: router,
@@ -42,8 +45,8 @@ func StartServer(signalCh <-chan os.Signal) {
 	glog.Infof("Shutdown server ...")
 
 	// Wait for interrupt signal to gracefully shutdown the server with
-	// a timeout of 10 seconds.
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	// a timeout of 3 seconds.
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 	if err := srv.Shutdown(ctx); err != nil {
 		glog.Fatalf("server shutdown: %v", err)

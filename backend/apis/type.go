@@ -1,7 +1,10 @@
 package apis
 
+import "github.com/google/uuid"
+
 type topicInfo struct {
-	Name     string `json:"name" binding:"required"`
-	Upvote   uint64 `json:"upvote"`
-	Downvote uint64 `json:"downvote"`
+	UID      uuid.UUID `json:"uid"`
+	Name     string    `json:"name"`
+	Upvote   uint64    `json:"upvote"`
+	Downvote uint64    `json:"downvote"`
 }
