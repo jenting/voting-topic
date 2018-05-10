@@ -1,7 +1,6 @@
 package apis
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -29,30 +28,31 @@ func SetupRouter() *gin.Engine {
 	router := gin.Default()
 
 	// Create routes
-	router.GET("/toptopic", getTopTopic) // get top topic
-	router.GET("/topic", getTopic)       // get topic
-	router.POST("/topic", createTopic)   // sumit a new topic
-	router.PUT("/topic", updateTopic)    // update a topic
+	router.GET("/toptopic", getTopTopic)               // get top topic
+	router.GET("/topic", getTopic)                     // get topic
+	router.POST("/topic", createTopic)                 // sumit a new topic
+	router.PUT("/topic/upvote", updateTopicUpvote)     // update topic's upvote
+	router.PUT("/topic/downvote", updateTopicDownvote) // update topic's downvote
 
 	return router
 }
 
 // getTopic returns specific topic's update and downvote count
 func getTopic(c *gin.Context) {
-	inputUUID := c.Query("uuid")
+	inputUUID := c.Query("uid")
 
 	// Get GET parameter
 	uid, err := uuid.Parse(inputUUID)
 	if err != nil {
-		glog.Infof("Invalid input uuid: %v", inputUUID)
-		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid input uuid"})
+		glog.Errorf("Invalid input uid: %v", inputUUID)
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid input uid"})
 		return
 	}
 
 	// Get topic
 	_, ok := cache.GetTopic(uid)
 	if ok == false {
-		glog.Infof("Get topic %v failed", uid)
+		glog.Errorf("Get topic %v failed", uid)
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Topic not exist"})
 		return
 	}
@@ -80,9 +80,8 @@ func getTopTopic(c *gin.Context) {
 // createTopic implements the RESTful POST API.
 func createTopic(c *gin.Context) {
 	var t cache.Topic
-	if err := c.BindJSON(&t); err != nil {
-		log.Println(t)
-		glog.Infof("Invalid JSON input")
+	if err := c.ShouldBindJSON(&t); err != nil {
+		glog.Error(err)
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid JSON parameter"})
 		return
 	}
@@ -102,34 +101,56 @@ func createTopic(c *gin.Context) {
 		return
 	}
 
-	// Set data
-	_ = cache.SetTopicUpvote(uid, t.Upvote)
-	_ = cache.SetTopicDownvote(uid, t.Downvote)
+	topic, _ := cache.GetTopic(uid)
 
-	c.JSON(http.StatusOK, &cache.Topic{UID: uid, Name: t.Name, Upvote: t.Upvote, Downvote: t.Downvote})
+	c.JSON(http.StatusOK, topic)
 	return
 }
 
-// updateTopic implements the RESTful PUT API.
-func updateTopic(c *gin.Context) {
+// updateTopicUpvote implements the RESTful PUT API.
+func updateTopicUpvote(c *gin.Context) {
 	var t cache.Topic
-	if err := c.BindJSON(&t); err != nil {
-		glog.Infof("Invalid JSON input")
+	if err := c.ShouldBindJSON(&t); err != nil {
+		glog.Error(err)
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid JSON parameter"})
 		return
 	}
 
 	_, ok := cache.GetTopic(t.UID)
 	if ok == false {
-		glog.Infof("UUID %v not exist", t.UID)
+		glog.Errorf("UUID %v not exist", t.UID)
 		c.JSON(http.StatusBadRequest, gin.H{"message": "UUID not exist"})
 		return
 	}
 
 	// Set data
-	_ = cache.SetTopicUpvote(t.UID, t.Upvote)
-	_ = cache.SetTopicDownvote(t.UID, t.Downvote)
+	_ = cache.IncTopicUpvote(t.UID)
+	topic, _ := cache.GetTopic(t.UID)
 
-	c.JSON(http.StatusOK, &cache.Topic{UID: t.UID, Name: t.Name, Upvote: t.Upvote, Downvote: t.Downvote})
+	c.JSON(http.StatusOK, topic)
+	return
+}
+
+// updateTopicDownvote implements the RESTful PUT API.
+func updateTopicDownvote(c *gin.Context) {
+	var t cache.Topic
+	if err := c.ShouldBindJSON(&t); err != nil {
+		glog.Error(err)
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid JSON parameter"})
+		return
+	}
+
+	_, ok := cache.GetTopic(t.UID)
+	if ok == false {
+		glog.Errorf("UUID %v not exist", t.UID)
+		c.JSON(http.StatusBadRequest, gin.H{"message": "UUID not exist"})
+		return
+	}
+
+	// Set data
+	_ = cache.IncTopicDownvote(t.UID)
+	topic, _ := cache.GetTopic(t.UID)
+
+	c.JSON(http.StatusOK, topic)
 	return
 }

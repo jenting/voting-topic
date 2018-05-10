@@ -2,16 +2,17 @@ package cache
 
 import (
 	"sort"
+	"sync/atomic"
 
 	"github.com/google/uuid"
 )
 
 // Topic defines the Topic voting information for database
 type Topic struct {
-	UID      uuid.UUID
-	Name     string
-	Upvote   uint64
-	Downvote uint64
+	UID      uuid.UUID `json:"uid"`
+	Name     string    `json:"name"`
+	Upvote   uint64    `json:"upvote"`
+	Downvote uint64    `json:"downvote"`
 }
 
 // Keeps the topics in-memory data cache
@@ -26,12 +27,23 @@ func init() {
 	uid2, _ := CreateTopic("I'm-Topic-2")
 	uid3, _ := CreateTopic("I'm-Topic-3")
 
-	SetTopicUpvote(uid1, 2)
-	SetTopicDownvote(uid1, 1)
-	SetTopicUpvote(uid2, 3)
-	SetTopicDownvote(uid2, 2)
-	SetTopicUpvote(uid3, 1)
-	SetTopicDownvote(uid3, 3)
+	// upvote=2 downvote=1
+	IncTopicUpvote(uid1)
+	IncTopicUpvote(uid1)
+	IncTopicDownvote(uid1)
+
+	// upvote=3 downvote=2
+	IncTopicUpvote(uid2)
+	IncTopicUpvote(uid2)
+	IncTopicUpvote(uid2)
+	IncTopicDownvote(uid2)
+	IncTopicDownvote(uid2)
+
+	// upvote=1 downvote=3
+	IncTopicUpvote(uid3)
+	IncTopicDownvote(uid3)
+	IncTopicDownvote(uid3)
+	IncTopicDownvote(uid3)
 }
 
 // CreateTopic creates a new Topic
@@ -41,7 +53,7 @@ func CreateTopic(topicName string) (uuid.UUID, error) {
 		return uuid.Nil, err
 	}
 
-	topicKV[uid] = &Topic{Name: topicName}
+	topicKV[uid] = &Topic{UID: uid, Name: topicName}
 	return uid, nil
 }
 
@@ -88,19 +100,19 @@ func GetTopicDownvote(uid uuid.UUID) uint64 {
 	return 0
 }
 
-// SetTopicUpvote sets Topic upvote counts
-func SetTopicUpvote(uid uuid.UUID, count uint64) bool {
+// IncTopicUpvote sets Topic upvote counts
+func IncTopicUpvote(uid uuid.UUID) bool {
 	if v, ok := topicKV[uid]; ok {
-		v.Upvote = count
+		atomic.AddUint64(&v.Upvote, 1)
 		return true
 	}
 	return false
 }
 
-// SetTopicDownvote sets Topic downvote counts
-func SetTopicDownvote(uid uuid.UUID, count uint64) bool {
+// IncTopicDownvote sets Topic downvote counts
+func IncTopicDownvote(uid uuid.UUID) bool {
 	if v, ok := topicKV[uid]; ok {
-		v.Downvote = count
+		atomic.AddUint64(&v.Downvote, 1)
 		return true
 	}
 	return false
