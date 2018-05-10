@@ -2,8 +2,8 @@ package backend
 
 import (
 	"context"
-	"flag"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"time"
@@ -13,25 +13,23 @@ import (
 	"github.com/hsiaoairplane/voting-topic/frontend"
 )
 
-var (
-	port uint
-)
-
-func init() {
-	flag.UintVar(&port, "port", 8080, "Server port should assigned")
-}
-
 // StartServer starts backend server
 func StartServer(signalCh <-chan os.Signal) {
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		log.Fatal("$PORT must be set")
+	}
+
 	router := apis.SetupRouter()
 	frontend.SetupFrontend(router)
 
 	srv := http.Server{
-		Addr:    fmt.Sprintf(":%d", port),
+		Addr:    fmt.Sprintf(":%v", port),
 		Handler: router,
 	}
 
-	glog.Infof("Start server at port: %d", port)
+	glog.Infof("Start server at port: %v", port)
 
 	go func() {
 		// serve connections

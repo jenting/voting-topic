@@ -2,6 +2,10 @@
 
 A website that allows user to create new topic and voting (upvote or downvote).
 
+## Demo site on [Heroku](https://www.heroku.com/)
+
+Demo site <https://frozen-anchorage-68159.herokuapp.com/>
+
 ## Language
 
 * F/E: HTML + jQuery
@@ -28,11 +32,11 @@ go get github.com/hsiaoairplane/voting-topic
 
 |    Method   |     URL     | Description |
 |-------------|-------------|-------------|
-| GET | <http://localhost:8080/toptopic> | Query top 20 topic informations. |
-| GET | <http://localhost:8080/topic?uid={uid}> | Query topic information with specific uid. |
-| POST | <http://localhost:8080/topic> | Create topic with JSON body. |
-| PUT | <http://localhost:8080/topic/upvote> | Update upvote by 1 with specific uid in JSON body. |
-| PUT | <http://localhost:8080/topic/downvote> | Update downvote by 1 with specific uid in JSON body. |
+| GET | <https://frozen-anchorage-68159.herokuapp.com/toptopic> | Query top 20 topic informations. |
+| GET | <https://frozen-anchorage-68159.herokuapp.com/topic?uid={uid}> | Query topic information with specific uid. |
+| POST | <https://frozen-anchorage-68159.herokuapp.com/topic> | Create topic with JSON body. |
+| PUT | <https://frozen-anchorage-68159.herokuapp.com/topic/upvote> | Update upvote by 1 with specific uid in JSON body. |
+| PUT | <https://frozen-anchorage-68159.herokuapp.com/topic/downvote> | Update downvote by 1 with specific uid in JSON body. |
 
 * HTTP POST/PUT JSON body
 
