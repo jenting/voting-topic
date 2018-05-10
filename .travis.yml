@@ -5,5 +5,5 @@ go:
 
 script:
   - make clean; make all
-  - go test -cover $(go list ./... | grep -v /vendor/)
+  - go test -race -cover $(go list ./... | grep -v /vendor/)
 

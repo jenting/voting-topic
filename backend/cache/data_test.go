@@ -74,7 +74,7 @@ func TestSetTopicUpvote(t *testing.T) {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			ok = IncTopicUpvote(uid)
+			ok := IncTopicUpvote(uid)
 			assert.Equal(t, true, ok, "Set topic upvote failed")
 		}()
 	}
