@@ -2,6 +2,8 @@
 
 A website that allows user to create new topic and voting (upvote or downvote).
 
+[![Build Status](https://travis-ci.com/hsiaoairplane/voting-topic.svg?branch=master)](https://travis-ci.com/hsiaoairplane/voting-topic)
+
 ## Demo site on [Heroku](https://www.heroku.com/)
 
 Demo site <https://frozen-anchorage-68159.herokuapp.com/>
