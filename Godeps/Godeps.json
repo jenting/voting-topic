@@ -36,6 +36,11 @@
 			"Rev": "4bd1920723d7b7c925de087aa32e2187708897f7"
 		},
 		{
+			"ImportPath": "github.com/google/uuid",
+			"Comment": "0.2-21-gdec09d7",
+			"Rev": "dec09d789f3dba190787f8b4454c7d3c936fed9e"
+		},
+		{
 			"ImportPath": "github.com/json-iterator/go",
 			"Comment": "1.1.1-6-g2a93f90",
 			"Rev": "2a93f9003e4f0b57063fcd849d92581f9c48fdcf"
