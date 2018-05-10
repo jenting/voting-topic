@@ -2,11 +2,25 @@
 
 A website that allows user to create new topic and voting (upvote or downvote).
 
-**Language:**
+## Language
 
-* F/E: Vue.js
+* F/E: HTML + jQuery
 
 * B/E: Golang
+
+## Setup
+
+* Download the project
+
+```sh
+go get github.com/hsiaoairplane/voting-topic
+```
+
+* Compile and run the project
+
+```sh
+./run.sh
+```
 
 ## RESTful APIs
 
@@ -14,22 +28,23 @@ A website that allows user to create new topic and voting (upvote or downvote).
 
 |    Method   |     URL     | Description |
 |-------------|-------------|-------------|
-| GET | <http://localhost/toptopic> | Query top 20 topic informations. |
-| GET | <http://localhost/topic?name={name}> | Query topic information with specific topic name. |
-| POST | <http://localhost/topic> | Create topic with JSON body. |
-| PUT | <http://localhost/topic> | Update topic information with JSON body. |
+| GET | <http://localhost:8080/toptopic> | Query top 20 topic informations. |
+| GET | <http://localhost:8080/topic?uid={uid}> | Query topic information with specific uid. |
+| POST | <http://localhost:8080/topic> | Create topic with JSON body. |
+| PUT | <http://localhost:8080/topic/upvote> | Update upvote by 1 with specific uid in JSON body. |
+| PUT | <http://localhost:8080/topic/downvote> | Update downvote by 1 with specific uid in JSON body. |
 
 * HTTP POST/PUT JSON body
 
-|    Field     | Type(Length) |  Description |
-|--------------|--------------|--------------|
-|     Name     |  String(255) |   Topic name |
-|    Upvote    |  Unsigned Integer | Upvote count |
-|   Downvote   |  Unsigned Integer | Downvote count |
+|    Field     |   Type(Length)    |    Description  |
+|--------------|-------------------|-----------------|
+|     uid      |  Version 4 UUID   |       UUID      |
+|     name     |  String(255)      |    Topic name   |
+|    upvote    |  Unsigned Integer |   Upvote count  |
+|   downvote   |  Unsigned Integer |  Downvote count |
 
 ## TODO
 
-* [ ] Add frontend page
 * [ ] Support [prometheus](https://prometheus.io) metrics API
 
 ## Godep
