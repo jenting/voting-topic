@@ -1,0 +1,9 @@
+language: go
+
+go:
+  - "1.8"
+
+script:
+  - make clean; make all
+  - go test -cover $(go list ./... | grep -v /vendor/)
+
