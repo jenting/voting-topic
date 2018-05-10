@@ -8,19 +8,15 @@
 <body>
     <table id="topicTable">
         <tr>
-            <th>Name</th>
-            <th>Upvote</th>
-            <th>Downvote</th>
+            <td>Topic</td>
+            <td>Upvote</td>
+            <td>Downvote</td>
         </tr>
     </table>
-
-<table id="TableA" dir="ltr" width="500" border="1">
-</table>
 
 <script type="text/javascript" >
 
 $(document).ready(function () {
-    console.log("ready")
     $.ajax({
         url: 'http://localhost:8080/toptopic',
         type: 'GET',
@@ -40,23 +36,21 @@ $(document).ready(function () {
 });
 
 function upClick(uid) {
-    console.log(uid)
-    return $.ajax({
-            url: 'http://localhost:8080/topic/upvote',
-            contentType: 'application/json',
-            type: 'PUT',
-            dataType: 'json',
-            data: JSON.stringify({ "uid": uid }),
-            success: function (result) {
-                console.log(result)
-                $('#topicTable tr').remove();
-                $('body').html($('body').html())
-            }
-        });
+    $.ajax({
+        url: 'http://localhost:8080/topic/upvote',
+        contentType: 'application/json',
+        type: 'PUT',
+        dataType: 'json',
+        data: JSON.stringify({ "uid": uid }),
+        success: function (result) {
+            //console.log(result)
+            $('#topicTable tr').next().remove();
+            $('body').html($('body').html())
+        }
+    });
 }
 
 function downClick(uid) {
-    console.log(uid)
     $.ajax({
         url: 'http://localhost:8080/topic/downvote',
         contentType: 'application/json',
@@ -64,18 +58,33 @@ function downClick(uid) {
         dataType: 'json',
         data: JSON.stringify({ "uid": uid }),
         success: function (result) {
-            console.log(result)
-            $('#topicTable tr').remove();
+            //console.log(result)
+            $('#topicTable tr').next().remove();
+            $('body').html($('body').html())
+        }
+    });
+}
+
+function submitClick(topic) {
+    $.ajax({
+        url: 'http://localhost:8080/topic',
+        contentType: 'application/json',
+        type: 'POST',
+        dataType: 'json',
+        data: JSON.stringify({ "name": topic }),
+        success: function (result) {
+            //console.log(result)
+            $('#topicTable tr').next().remove();
             $('body').html($('body').html())
         }
     });
 }
 
 </script>
-    <h4>Create New Topic:</h4>
-    <input type="text" name="topic" value="">
-    <br>
-    <input type="submit" value="Submit">
-    <br>
+    <h4>Create New Topic</h4>
+    <input type="text" id="topic" name="topic">
+    <td>
+    <input type="button" value="Submit" onClick="submitClick(document.getElementById('topic').value)">
+    </td>
 </body>
 </html>
