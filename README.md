@@ -12,7 +12,7 @@ Demo site <https://frozen-anchorage-68159.herokuapp.com/>
 
 * F/E: HTML + jQuery
 
-* B/E: Golang
+* B/E: Golang (golang >= 1.11)
 
 ## Setup
 
@@ -52,12 +52,6 @@ go get github.com/hsiaoairplane/voting-topic
 ## TODO
 
 * [ ] Support [prometheus](https://prometheus.io) metrics API
-
-## Godep
-
-* Add all dependency `godep save ./...`
-
-* Restore dependency in vendor folderto the $GOPATH `godep restore`
 
 ## Limitations
 
