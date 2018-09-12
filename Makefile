@@ -4,6 +4,6 @@ all:
 	go build
 	
 clean:
-	@[ -f voting-topic ] && rm -r voting-topic || true
+	go clean
 
 .PHONY: all clean
