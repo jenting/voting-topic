@@ -5,7 +5,7 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/hsiaoairplane/voting-topic/backend"
+	"github.com/jenting/voting-topic/backend"
 )
 
 func init() {

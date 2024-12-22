@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/hsiaoairplane/voting-topic/backend/cache"
+	"github.com/jenting/voting-topic/backend/cache"
 )
 
 // SetupFrontend setup frontend routes.

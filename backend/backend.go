@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/golang/glog"
-	"github.com/hsiaoairplane/voting-topic/backend/apis"
-	"github.com/hsiaoairplane/voting-topic/frontend"
+	"github.com/jenting/voting-topic/backend/apis"
+	"github.com/jenting/voting-topic/frontend"
 )
 
 // StartServer starts backend server

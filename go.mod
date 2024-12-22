@@ -1,20 +1,41 @@
-module voting-topic
+module github.com/jenting/voting-topic
+
+go 1.23.2
 
 require (
-	github.com/davecgh/go-spew v0.0.0-20170626231645-782f4967f2dc
-	github.com/gin-contrib/sse v0.0.0-20170109093832-22d885f9ecc7
-	github.com/gin-gonic/gin v0.0.0-20180320064251-65a65c2edd4e
-	github.com/golang/glog v0.0.0-20141105023935-44145f04b68c
-	github.com/golang/protobuf v0.0.0-20161109072736-4bd1920723d7
-	github.com/google/uuid v0.0.0-20171129191014-dec09d789f3d
-	github.com/hsiaoairplane/voting-topic v0.0.0-20180903040556-17fd7c154166
-	github.com/json-iterator/go v0.0.0-20180227044048-2a93f9003e4f
-	github.com/mattn/go-isatty v0.0.0-20170925054904-a5cdd64afdee
-	github.com/pmezard/go-difflib v0.0.0-20151028094244-d8ed2627bdf0
-	github.com/stretchr/testify v0.0.0-20170601210322-f6abca593680
-	github.com/ugorji/go v0.0.0-20170107133203-ded73eae5db7
-	github.com/v2pro/plz v0.0.0-20180227032929-8ffd0413fb32
-	golang.org/x/sys v0.0.0-20180504064212-6f686a352de6
-	gopkg.in/go-playground/validator.v8 v8.18.2
-	gopkg.in/yaml.v2 v2.0.0-20150924142314-53feefa2559f
+	github.com/gin-gonic/gin v1.10.0
+	github.com/golang/glog v1.2.3
+	github.com/google/uuid v1.6.0
+	github.com/stretchr/testify v1.10.0
+)
+
+require (
+	github.com/bytedance/sonic v1.11.6 // indirect
+	github.com/bytedance/sonic/loader v0.1.1 // indirect
+	github.com/cloudwego/base64x v0.1.4 // indirect
+	github.com/cloudwego/iasm v0.2.0 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
+	github.com/gin-contrib/sse v0.1.0 // indirect
+	github.com/go-playground/locales v0.14.1 // indirect
+	github.com/go-playground/universal-translator v0.18.1 // indirect
+	github.com/go-playground/validator/v10 v10.20.0 // indirect
+	github.com/goccy/go-json v0.10.2 // indirect
+	github.com/json-iterator/go v1.1.12 // indirect
+	github.com/klauspost/cpuid/v2 v2.2.7 // indirect
+	github.com/leodido/go-urn v1.4.0 // indirect
+	github.com/mattn/go-isatty v0.0.20 // indirect
+	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
+	github.com/modern-go/reflect2 v1.0.2 // indirect
+	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
+	github.com/ugorji/go/codec v1.2.12 // indirect
+	golang.org/x/arch v0.8.0 // indirect
+	golang.org/x/crypto v0.23.0 // indirect
+	golang.org/x/net v0.25.0 // indirect
+	golang.org/x/sys v0.20.0 // indirect
+	golang.org/x/text v0.15.0 // indirect
+	google.golang.org/protobuf v1.34.1 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

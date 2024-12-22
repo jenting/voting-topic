@@ -2,7 +2,7 @@
 
 A website that allows user to create new topic and voting (upvote or downvote).
 
-[![Build Status](https://travis-ci.com/hsiaoairplane/voting-topic.svg?branch=master)](https://travis-ci.com/hsiaoairplane/voting-topic)
+[![Build Status](https://travis-ci.com/jenting/voting-topic.svg?branch=master)](https://travis-ci.com/jenting/voting-topic)
 
 ## Demo site on [Heroku](https://www.heroku.com/)
 
@@ -19,7 +19,7 @@ Demo site <https://frozen-anchorage-68159.herokuapp.com/>
 * Download the project
 
 ```sh
-go get github.com/hsiaoairplane/voting-topic
+go get github.com/jenting/voting-topic
 ```
 
 * Compile and run the project
