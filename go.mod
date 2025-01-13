@@ -4,7 +4,7 @@ go 1.23.2
 
 require (
 	github.com/gin-gonic/gin v1.10.0
-	github.com/golang/glog v1.2.3
+	github.com/golang/glog v1.2.4
 	github.com/google/uuid v1.6.0
 	github.com/stretchr/testify v1.10.0
 )
